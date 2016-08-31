@@ -11,14 +11,19 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.initJmespath"
+    "onCommand:extension.runJmespath",
+    "onCommand:extension.runJmespathInPlace"
   ],
   "main": "./out/src/extension",
   "contributes": {
     "commands": [
       {
-        "command": "extension.initJmespath",
+        "command": "extension.runJmespath",
         "title": "Apply JMESPath to selected JSON"
+      },
+      {
+        "command": "extension.runJmespathInPlace",
+        "title": "Apply JMESPath and replace selected JSON in place"
       }
     ]
   },
