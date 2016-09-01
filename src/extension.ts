@@ -1,7 +1,7 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import { Uri, ViewColumn } from 'vscode';
+import { Uri, ViewColumn, Selection, Position } from 'vscode';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
@@ -46,6 +46,16 @@ function runJmespath() {
 }
 
 function runJmespathInPlace() {
+    const selectedText = getSelectedText();
+
+    if (!selectedText || selectedText === '') {
+        if (vscode.window.activeTextEditor.document.fileName.endsWith('.json')) {
+            selectWholeDocument(vscode.window.activeTextEditor);
+        } else {
+            vscode.window.showInformationMessage('Please select some JSON');
+            return;
+        }
+    }
     const selectedJson = getSelectedJson();
     const activeSelection = getActiveSelection();
 
@@ -56,10 +66,15 @@ function runJmespathInPlace() {
 
     function liveUpdateOutput(pattern: string) {
         let outputJson;
-        try {
-            outputJson = jmespath.search(selectedJson, pattern);
-        } catch (err) {
-            return null;
+
+        if (pattern === '') {
+            outputJson = selectedJson;
+        } else {
+            try {
+                outputJson = jmespath.search(selectedJson, pattern);
+            } catch (err) {
+                return null;
+            }
         }
 
         vscode.window.activeTextEditor.edit((editBuilder) => {
@@ -77,6 +92,17 @@ function runJmespathInPlace() {
             })
         }
     });
+}
+
+function selectWholeDocument(activeEditor: vscode.TextEditor) {
+    const lastline = activeEditor.document.lineCount - 1;
+    const lastCharInLastLine = activeEditor.document.lineAt(lastline).text.length;
+    
+    const anchor = new Position(0, 0);
+    const active = new Position(lastline, lastCharInLastLine);
+    const wholeDocumentSelection = new Selection(anchor, active);
+
+    activeEditor.selection = wholeDocumentSelection;
 }
 
 function getSelectedJson() {
