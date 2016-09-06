@@ -1,8 +1,8 @@
 {
   "name": "vscode-json-transform",
-  "displayName": "vscode-json-transform",
+  "displayName": "JSON Transform",
   "description": "",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "octref",
   "engines": {
     "vscode": "^1.0.0"
