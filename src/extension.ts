@@ -8,14 +8,15 @@ import * as path from 'path';
 import * as jmespath from 'jmespath';
 
 export function activate(context: vscode.ExtensionContext) {
-    context.subscriptions.push(vscode.commands.registerCommand('extension.runJmespath', runJmespath));
-    context.subscriptions.push(vscode.commands.registerCommand('extension.runJmespathInPlace', runJmespathInPlace));
+    context.subscriptions.push(vscode.commands.registerCommand('extension.jsonTransform', jsonTransform));
+    // Disable for now. Fix bugs and add back later.
+    // context.subscriptions.push(vscode.commands.registerCommand('extension.runJmespathInPlace', runJmespathInPlace));
 }
 
 export function deactivate() {
 }
 
-function runJmespath() {
+function jsonTransform() {
     const selectedJson = getSelectedJson();
 
     if (!selectedJson) {
@@ -23,7 +24,7 @@ function runJmespath() {
         return;
     }
 
-    const tmpFilePath = path.join(os.tmpdir(), 'vscode-jmespath-preview.json');
+    const tmpFilePath = path.join(os.tmpdir(), 'json-transform-preview.json');
     const tmpFileUri = Uri.file(tmpFilePath);
 
     fs.writeFileSync(tmpFilePath, stringifyJson(selectedJson, 2));

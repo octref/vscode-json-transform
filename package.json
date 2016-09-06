@@ -1,8 +1,8 @@
 {
-  "name": "vscode-jmespath",
-  "displayName": "vscode-jmespath",
+  "name": "vscode-json-transform",
+  "displayName": "vscode-json-transform",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "publisher": "octref",
   "engines": {
     "vscode": "^1.0.0"
@@ -11,19 +11,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.runJmespath",
-    "onCommand:extension.runJmespathInPlace"
+    "onCommand:extension.jsonTransform"
   ],
   "main": "./out/src/extension",
   "contributes": {
     "commands": [
       {
-        "command": "extension.runJmespath",
-        "title": "Apply JMESPath to selected JSON"
-      },
-      {
-        "command": "extension.runJmespathInPlace",
-        "title": "Apply JMESPath and replace selected JSON in place"
+        "command": "extension.jsonTransform",
+        "title": "JSON transform"
       }
     ]
   },
